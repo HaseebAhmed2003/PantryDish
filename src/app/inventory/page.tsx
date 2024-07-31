@@ -84,36 +84,38 @@ export default function InventoryPage() {
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Inventory</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl">Inventory</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
             <Input
               placeholder="Search items..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="max-w-sm"
+              className="w-full sm:w-auto mb-2 sm:mb-0"
             />
-            <Button onClick={handleDownload}>Download PDF</Button>
+            <Button onClick={handleDownload} className="w-full sm:w-auto">Download PDF</Button>
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product Name</TableHead>
-                <TableHead>Quantity</TableHead>
-                <TableHead>Weight</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredItems.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.weight}</TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/3">Product Name</TableHead>
+                  <TableHead className="w-1/3">Quantity</TableHead>
+                  <TableHead className="w-1/3">Weight</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredItems.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="w-1/3">{item.name}</TableCell>
+                    <TableCell className="w-1/3">{item.quantity}</TableCell>
+                    <TableCell className="w-1/3">{item.weight}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

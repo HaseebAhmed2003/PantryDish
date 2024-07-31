@@ -111,11 +111,12 @@ export default function Pantry() {
             setNewItem({ id: '', name: '', quantity: 1, weight: 'g' });
             setIsEditing(false);
             setIsAlertOpen(true);
-          }}>
+          }}
+          className="w-full sm:w-auto mb-4">
             Add New Item
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
             <AlertDialogTitle>{isEditing ? 'Edit Item' : 'Add New Item'}</AlertDialogTitle>
             <AlertDialogDescription>
@@ -128,19 +129,20 @@ export default function Pantry() {
               onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
               placeholder="Item name"
             />
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 type="number"
                 value={newItem.quantity}
                 onChange={(e) => setNewItem({ ...newItem, quantity: Math.max(1, parseInt(e.target.value)) })}
                 placeholder="Quantity"
                 min="1"
+                className="w-full sm:w-1/2"
               />
               <Select
                 value={newItem.weight}
                 onValueChange={(value) => setNewItem({ ...newItem, weight: value })}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-full sm:w-1/2">
                   <SelectValue placeholder="Select weight unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -162,33 +164,35 @@ export default function Pantry() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <Table className="mt-4">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-1/4">Item Name</TableHead>
-            <TableHead className="w-1/4">Quantity</TableHead>
-            <TableHead className="w-1/4">Weight Unit</TableHead>
-            <TableHead className="w-1/4 text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="w-1/4">{item.name}</TableCell>
-              <TableCell className="w-1/4">{item.quantity}</TableCell>
-              <TableCell className="w-1/4">{item.weight}</TableCell>
-              <TableCell className="w-1/4 text-right">
-                <div className="flex justify-end space-x-2">
-                  <Button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} size="sm">+</Button>
-                  <Button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} size="sm">-</Button>
-                  <Button onClick={() => openEditDialog(item)} size="sm">Edit</Button>
-                  <Button onClick={() => deleteItem(item.id)} variant="destructive" size="sm">Delete</Button>
-                </div>
-              </TableCell>
+      <div className="overflow-x-auto">
+        <Table className="mt-4 w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1/4">Item Name</TableHead>
+              <TableHead className="w-1/4">Quantity</TableHead>
+              <TableHead className="w-1/4">Weight Unit</TableHead>
+              <TableHead className="w-1/4 text-right">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="w-1/4">{item.name}</TableCell>
+                <TableCell className="w-1/4">{item.quantity}</TableCell>
+                <TableCell className="w-1/4">{item.weight}</TableCell>
+                <TableCell className="w-1/4 text-right">
+                  <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+                    <Button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} size="sm">+</Button>
+                    <Button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} size="sm">-</Button>
+                    <Button onClick={() => openEditDialog(item)} size="sm">Edit</Button>
+                    <Button onClick={() => deleteItem(item.id)} variant="destructive" size="sm">Delete</Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
