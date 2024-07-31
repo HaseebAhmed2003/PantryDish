@@ -6,7 +6,7 @@ import { Home, Clipboard, BarChart, Settings, ShoppingCart, LogIn } from 'lucide
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 
 const navItems = [
-  { name: 'Dashboard', href: '/pantry', icon: Home },
+  { name: 'Pantry', href: '/pantry', icon: Home },
   { name: 'Inventory', href: '/inventory', icon: Clipboard },
   // { name: 'Analytics', href: '/analytics', icon: BarChart },
   // { name: 'Shopping List', href: '/shopping-list', icon: ShoppingCart },
@@ -19,7 +19,7 @@ const SideNav: React.FC = () => {
 
   return (
     <nav className="w-64 bg-gray-100 h-screen p-4 flex flex-col">
-      <div className="text-2xl font-bold mb-8">Pantry Manager</div>
+      <div className="text-2xl font-bold mb-8"><Link href='/pantry' >PantryPal </Link>  </div>
       <ul className="flex-grow">
         {navItems.map((item) => (
           <li key={item.name} className="mb-4">
