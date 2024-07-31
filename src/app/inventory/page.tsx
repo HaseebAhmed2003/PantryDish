@@ -1,7 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../pantry/page';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
@@ -9,7 +7,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, Firestore } from "firebase/firestore";
+import firebaseConfig from "@/app/firebase/config";
+import { initializeApp } from 'firebase/app';
 
+const app = initializeApp(firebaseConfig);
+const db: Firestore = getFirestore(app);
 interface PantryItem {
   id: string; // This will be the name of the product
   quantity: number;

@@ -10,7 +10,7 @@ import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, F
 import firebaseConfig from "@/app/firebase/config";
 
 const app = initializeApp(firebaseConfig);
-export const db: Firestore = getFirestore(app);
+const db: Firestore = getFirestore(app);
 
 interface PantryItem {
   name: string;
