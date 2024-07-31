@@ -6,13 +6,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, Firestore } from "firebase/firestore";
+import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, Firestore, query, where } from "firebase/firestore";
 import firebaseConfig from "@/app/firebase/config";
+import { useUser } from "@clerk/nextjs";
 
 const app = initializeApp(firebaseConfig);
 const db: Firestore = getFirestore(app);
 
 interface PantryItem {
+  id: string;
   name: string;
   quantity: number;
   weight: string;
@@ -26,49 +28,66 @@ const weightOptions = [
 ];
 
 export default function Pantry() {
+  const { user } = useUser();
   const [items, setItems] = useState<PantryItem[]>([]);
-  const [newItem, setNewItem] = useState<PantryItem>({ name: '', quantity: 1, weight: 'g' });
+  const [newItem, setNewItem] = useState<PantryItem>({ id: '', name: '', quantity: 1, weight: 'g' });
   const [isEditing, setIsEditing] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    if (user) {
+      fetchItems();
+    }
+  }, [user]);
 
   const fetchItems = async (): Promise<void> => {
-    const querySnapshot = await getDocs(collection(db, "pantryItems"));
+    if (!user) return;
+    const q = query(collection(db, "pantryItems"), where("userId", "==", user.id));
+    const querySnapshot = await getDocs(q);
     const fetchedItems: PantryItem[] = querySnapshot.docs.map(doc => ({ 
-      name: doc.id, 
+      id: doc.id,
+      name: doc.data().name,
       quantity: doc.data().quantity,
-      weight: doc.data().weight || 'g' // Default to grams if not set
+      weight: doc.data().weight || 'g'
     }));
     setItems(fetchedItems);
   };
 
   const addOrUpdateItem = async (): Promise<void> => {
-    if (newItem.name.trim() === '') return;
+    if (!user || newItem.name.trim() === '') return;
 
-    await setDoc(doc(db, "pantryItems", newItem.name.trim()), { 
+    const itemData = {
+      userId: user.id,
+      name: newItem.name.trim(),
       quantity: newItem.quantity,
       weight: newItem.weight
-    }, { merge: true });
+    };
 
-    setNewItem({ name: '', quantity: 1, weight: 'g' });
+    if (isEditing) {
+      await updateDoc(doc(db, "pantryItems", newItem.id), itemData);
+    } else {
+      const docRef = doc(collection(db, "pantryItems"));
+      await setDoc(docRef, itemData);
+    }
+
+    setNewItem({ id: '', name: '', quantity: 1, weight: 'g' });
     setIsAlertOpen(false);
     fetchItems();
   };
 
-  const updateItemQuantity = async (name: string, newQuantity: number): Promise<void> => {
+  const updateItemQuantity = async (id: string, newQuantity: number): Promise<void> => {
+    if (!user) return;
     if (newQuantity <= 0) {
-      await deleteDoc(doc(db, "pantryItems", name));
+      await deleteDoc(doc(db, "pantryItems", id));
     } else {
-      await updateDoc(doc(db, "pantryItems", name), { quantity: newQuantity });
+      await updateDoc(doc(db, "pantryItems", id), { quantity: newQuantity });
     }
     fetchItems();
   };
 
-  const deleteItem = async (name: string): Promise<void> => {
-    await deleteDoc(doc(db, "pantryItems", name));
+  const deleteItem = async (id: string): Promise<void> => {
+    if (!user) return;
+    await deleteDoc(doc(db, "pantryItems", id));
     fetchItems();
   };
 
@@ -78,6 +97,10 @@ export default function Pantry() {
     setIsAlertOpen(true);
   };
 
+  if (!user) {
+    return <div>Please sign in to access your pantry.</div>;
+  }
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Pantry Management</h1>
@@ -85,7 +108,7 @@ export default function Pantry() {
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogTrigger asChild>
           <Button onClick={() => {
-            setNewItem({ name: '', quantity: 1, weight: 'g' });
+            setNewItem({ id: '', name: '', quantity: 1, weight: 'g' });
             setIsEditing(false);
             setIsAlertOpen(true);
           }}>
@@ -104,7 +127,6 @@ export default function Pantry() {
               value={newItem.name}
               onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
               placeholder="Item name"
-              disabled={isEditing}
             />
             <div className="flex gap-2">
               <Input
@@ -151,16 +173,16 @@ export default function Pantry() {
         </TableHeader>
         <TableBody>
           {items.map((item) => (
-            <TableRow key={item.name}>
+            <TableRow key={item.id}>
               <TableCell className="w-1/4">{item.name}</TableCell>
               <TableCell className="w-1/4">{item.quantity}</TableCell>
               <TableCell className="w-1/4">{item.weight}</TableCell>
               <TableCell className="w-1/4 text-right">
                 <div className="flex justify-end space-x-2">
-                  <Button onClick={() => updateItemQuantity(item.name, item.quantity + 1)} size="sm">+</Button>
-                  <Button onClick={() => updateItemQuantity(item.name, item.quantity - 1)} size="sm">-</Button>
+                  <Button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} size="sm">+</Button>
+                  <Button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} size="sm">-</Button>
                   <Button onClick={() => openEditDialog(item)} size="sm">Edit</Button>
-                  <Button onClick={() => deleteItem(item.name)} variant="destructive" size="sm">Delete</Button>
+                  <Button onClick={() => deleteItem(item.id)} variant="destructive" size="sm">Delete</Button>
                 </div>
               </TableCell>
             </TableRow>

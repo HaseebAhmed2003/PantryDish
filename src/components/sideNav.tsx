@@ -10,7 +10,7 @@ const navItems = [
   { name: 'Inventory', href: '/inventory', icon: Clipboard },
   // { name: 'Analytics', href: '/analytics', icon: BarChart },
   // { name: 'Shopping List', href: '/shopping-list', icon: ShoppingCart },
-  { name: 'Settings', href: '/settings', icon: Settings },
+ // { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
 const SideNav: React.FC = () => {
