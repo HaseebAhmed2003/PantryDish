@@ -1,11 +1,10 @@
+import RecipeSuggestions from '@/components/recipeSuggestions'
 import React from 'react'
 
-export default function Skibidi
-() {
+export default function Settings() {
   return (
     <div>
-      <h1>SKibidi dop dop </h1>
-      
+      <RecipeSuggestions />
     </div>
   )
 }

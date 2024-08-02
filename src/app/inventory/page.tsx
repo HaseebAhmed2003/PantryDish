@@ -34,7 +34,7 @@ export default function InventoryPage() {
     }
   }, [user]);
 
-  const fetchPantryItems = async () => {
+const fetchPantryItems = async () => {
     if (!user) return;
     const q = query(collection(db, 'pantryItems'), where("userId", "==", user.id));
     const querySnapshot = await getDocs(q);
