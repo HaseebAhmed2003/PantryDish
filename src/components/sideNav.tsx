@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Clipboard, BarChart, Settings, ShoppingCart, LogIn, Menu, X } from 'lucide-react';
+import { Home, Clipboard, BarChart, Settings, ShoppingCart, LogIn, Menu, X, CookingPot } from 'lucide-react';
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 
 const navItems = [
@@ -10,7 +10,7 @@ const navItems = [
   { name: 'Inventory', href: '/inventory', icon: Clipboard },
   // { name: 'Analytics', href: '/analytics', icon: BarChart },
   // { name: 'Shopping List', href: '/shopping-list', icon: ShoppingCart },
- { name: 'Settings', href: '/settings', icon: Settings },
+ { name: 'Recipe', href: '/recipe', icon: CookingPot },
 ];
 
 const SideNav: React.FC = () => {
