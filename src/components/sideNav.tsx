@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Clipboard, BarChart, Settings, ShoppingCart, LogIn, Menu, X, CookingPot } from 'lucide-react';
 import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
-
+import Image from 'next/image';
 const navItems = [
   { name: 'Pantry', href: '/pantry', icon: Home },
   { name: 'Inventory', href: '/inventory', icon: Clipboard },
@@ -46,7 +46,7 @@ const SideNav: React.FC = () => {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:h-screen
       `}>
-        <div className="text-2xl font-bold mb-8">
+        <div className="text-xl font-bold mb-8 flex items-center">
           <Link href='/pantry'>PantryPal</Link>
         </div>
         <ul className="flex-grow">
