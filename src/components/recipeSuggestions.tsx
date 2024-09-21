@@ -81,12 +81,12 @@ const RecipeSuggestions: React.FC = () => {
     <div className="container mx-auto p-4">
       <Card className="w-full mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Recipe Suggestion</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center text-green-950">Recipe Suggestion</CardTitle>
         </CardHeader>
         <CardContent>
           {!hasGeneratedRecipe && (
             <div className="text-center mb-4">
-              <Button onClick={generateRecipe} disabled={loading}>
+              <Button onClick={generateRecipe} disabled={loading} className="bg-green-500 text-white hover:bg-green-100">
                 {loading ? 'Generating...' : 'Generate Recipe'}
               </Button>
             </div>
@@ -99,7 +99,6 @@ const RecipeSuggestions: React.FC = () => {
               
               <div className="flex flex-wrap justify-center gap-2 mb-4">
                 <Badge variant="secondary">{recipe.difficulty}</Badge>
-                <Badge variant="secondary"><Clock className="w-4 h-4 inline mr-1" />{recipe.prepTime}</Badge>
                 <Badge variant="secondary"><Clock className="w-4 h-4 inline mr-1" />{recipe.cookTime}</Badge>
                 <Badge variant="secondary"><Users className="w-4 h-4 inline mr-1" />{recipe.servings}</Badge>
               </div>

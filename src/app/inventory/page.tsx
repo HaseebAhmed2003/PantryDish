@@ -84,7 +84,7 @@ const fetchPantryItems = async () => {
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-xl sm:text-2xl">Inventory</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl text-green-950">Inventory</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">

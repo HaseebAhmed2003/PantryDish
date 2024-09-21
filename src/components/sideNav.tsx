@@ -29,7 +29,7 @@ const SideNav: React.FC = () => {
         > 
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <span className="ml-4 text-xl font-bold">PantryPal</span>
+        <span className="ml-4 text-xl font-bold">Pantry Dish</span>
       </div>
       {/* Overlay for mobile */}
       {isOpen && (
@@ -41,13 +41,13 @@ const SideNav: React.FC = () => {
 
       {/* Sidebar */}
       <nav className={`
-        fixed top-0 left-0 h-full w-64 bg-gray-100 p-4 flex flex-col
+        fixed top-0 left-0 h-full w-64 bg-green-200 p-4 flex flex-col
         transform transition-transform duration-300 ease-in-out z-20
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:h-screen
       `}>
-        <div className="text-xl font-bold mb-8 flex items-center">
-          <Link href='/pantry'>PantryPal</Link>
+        <div className="text-xl font-bold mb-8 flex items-center text-green-950;">
+          <Link href='/pantry'>Pantry Dish</Link>
         </div>
         <ul className="flex-grow">
           {navItems.map((item) => (
@@ -56,8 +56,8 @@ const SideNav: React.FC = () => {
                 <div
                   className={`flex items-center p-2 rounded-md ${
                     pathname === item.href
-                      ? 'bg-black text-white scale-105 transition duration-300'
-                      : 'hover:bg-gray-200'
+                      ? 'bg-green-500 text-white scale-105 transition duration-300'
+                      : 'hover:bg-green-100'
                   }`}
                 >
                   <item.icon className="mr-2" size={20} />
@@ -70,7 +70,7 @@ const SideNav: React.FC = () => {
         
         <div className="mt-auto">
           {isSignedIn ? (
-            <div className="flex items-center p-2 rounded-md hover:bg-gray-200">
+            <div className="flex items-center p-2 rounded-md hover:bg-green-100">
               <UserButton afterSignOutUrl="/" />
               <span className="ml-2">Manage Account</span>
             </div>

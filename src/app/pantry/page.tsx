@@ -103,7 +103,7 @@ export default function Pantry() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Pantry Management</h1>
+      <h1 className="text-2xl font-bold mb-4 text-green-950">Pantry Management</h1>
       
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogTrigger asChild>
