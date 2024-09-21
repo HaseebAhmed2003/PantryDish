@@ -1,11 +1,9 @@
 // Your web app's Firebase configuration
-const NEXT_PUBLIC_FIREBASE_API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
-const NEXT_PUBLIC_FIREBASE_PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
 
 const firebaseConfig = {
-  apiKey: "NEXT_PUBLIC_FIREBASE_API_KEY",
+  apiKey: "AIzaSyDU6cfP7P7RTUO4dqKPZBC5z-kabpqTp-U",
   authDomain: "pantry-dish.firebaseapp.com",
-  projectId: "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+  projectId: "pantry-dish",
   storageBucket: "pantry-dish.appspot.com",
   messagingSenderId: "546181832328",
   appId: "1:546181832328:web:ed0e22f5d3446ebcfb093d"
