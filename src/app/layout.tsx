@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import SideNav from "@/components/sideNav";
-import { ClerkProvider, SignIn, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { dark, neobrutalism } from '@clerk/themes'
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import SideNav from '@/components/sideNav';
+import { ClerkProvider, SignIn, SignedIn, SignedOut } from '@clerk/nextjs';
+import SyncUserWithFirebase from '@/components/SyncUserWithFirebase'; // Import the sync component
+import { dark, neobrutalism } from '@clerk/themes';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Pantry Management System",
-  description: "Organize your kitchen inventory with ease",
+  title: 'Pantry Management System',
+  description: 'Organize your kitchen inventory with ease',
 };
 
 export default function RootLayout({
@@ -26,6 +28,7 @@ export default function RootLayout({
             </div>
           </SignedOut>
           <SignedIn>
+            <SyncUserWithFirebase /> {/* Sync with Firebase when signed in */}
             <div className="flex flex-col h-screen lg:flex-row">
               <div className="w-full lg:w-64 flex-shrink-0">
                 <SideNav />
